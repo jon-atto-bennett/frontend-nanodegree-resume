@@ -9,8 +9,8 @@ var bio = {
     location: 'Wellington, New Zealand'
   },
   welcomeMessage: 'Welcome to my resume',
-  skills: ['Full Stack Technologies', 'Git', 'Pair Programming', 'Engineering Empathy', 'Team Work'],
-  biopic: './images/jon.jpg'
+  skills: ['Full Stack Technologies', 'Pair Programming', 'Engineering Empathy', 'Team Work', 'Git'],
+  biopic: './images/FullSizeRender.jpg'
   // display: function taking no parameters
 }
 var formatedRole = HTMLheaderRole.replace('%data%', bio.role)
@@ -36,8 +36,10 @@ $('#header').prepend(formatedBioPic)
 
 if(bio.skills.length !== 0) {
   $('#header').append(HTMLskillsStart)
-  var formatedSkills = HTMLskills.replace('%data%', bio.skills)
-  $('#skills').append(formatedSkills)
+  bio.skills.forEach(function(skill){
+  var formatedSkill = HTMLskills.replace('%data%', skill)
+  $('#skills').append(formatedSkill)
+ })
 }
 
 const education = {
@@ -83,11 +85,11 @@ const education = {
 const work = {
   jobs: [
     {
-      employer: 'various',
+      employer: 'Various',
       title: 'Service Engineer',
       location: 'UK',
       dates: '1988-2002',
-      description: 'servicing printers, copiers and fax machines'
+      description: 'Servicing printers, copiers and fax machines'
       //  display: function taking no parameters
     },
     {
@@ -95,7 +97,7 @@ const work = {
       title: 'Network Engineer',
       location: 'Nelson, NZ',
       dates: 'Nov-2004 to Nov-2007',
-      description: 'supporting the institutes IT infrastructure, applications and users'
+      description: 'Supporting the institutes IT infrastructure, applications and users'
       //  display: function taking no parameters
     },
     {
@@ -103,20 +105,30 @@ const work = {
       title: 'Business Analyst',
       location: 'Nelson, NZ',
       dates: 'Dec-2007 to May-2016',
-      description: 'supporting the ports IT infrastructure, applications and users'
+      description: 'Supporting the ports IT infrastructure, applications and users'
       //  display: function taking no parameters
     }
   ]
 }
 
-for(job in work.jobs){
-  $('#header').append(HTMLworkStart)
-  var formatedEmployer =  HTMLworkEmployer.replace('%data%', work.jobs[job].employer)
-  var formatedTitle =  HTMLworkTitle.replace('%data%', work.jobs[job].title)
-  var formatedEmployerTitle = formatedEmployer + formatedTitle
-
-  $('.work-entry:last').append(formatedEmployerTitle)
+function displayWork () {
+   for(i=0; i<work.jobs.length; i++) {
+     $('#workExperience').append(HTMLworkStart)
+     var formatedEmployer = HTMLworkEmployer.replace('%data%', work.jobs[i].employer)
+     var formatedTitle = HTMLworkTitle.replace('%data%', work.jobs[i].title)
+     var formatedEmployerTitle = formatedEmployer + formatedTitle
+     var formatedDates= HTMLworkDates.replace('%data%', work.jobs[i].dates)
+     var formatedLocation = HTMLworkLocation.replace('%data%', work.jobs[i].location)
+     var formatedDescription = HTMLworkDescription.replace('%data%', work.jobs[i].description)
+     $('.work-entry:last').append(formatedEmployerTitle)
+     $('.work-entry:last').append(formatedDates)
+     $('.work-entry:last').append(formatedLocation)
+     $('.work-entry:last').append(formatedDescription)
+   }
 }
+
+displayWork()
+
 
 const projects = {
   projects: [
@@ -136,3 +148,9 @@ const projects = {
     }
   ]
 }
+
+$(document).click(function(loc) {
+  var x = loc.pageX
+  var y = loc.pageY
+  logClicks (x, y)
+})
